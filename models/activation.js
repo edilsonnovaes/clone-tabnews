@@ -41,11 +41,11 @@ Equipe Fintab
   });
 }
 
-async function findOneByUserId(userId) {
-  const token = await selectQuery(userId);
+async function findOneByTokenId(tokenId) {
+  const token = await selectQuery(tokenId);
   return token;
 
-  async function selectQuery(userId) {
+  async function selectQuery(tokenId) {
     const results = await database.query({
       text: `
       SELECT 
@@ -53,11 +53,13 @@ async function findOneByUserId(userId) {
       FROM 
         user_activation_tokens 
       WHERE 
-        user_id = $1
+        id = $1
+        AND expires_at > NOW()
+        AND used_at IS NULL
       LIMIT 
         1
       ;`,
-      values: [userId],
+      values: [tokenId],
     });
 
     return results.rows[0];
@@ -67,7 +69,8 @@ async function findOneByUserId(userId) {
 const activation = {
   create,
   sendEmailToUser,
-  findOneByUserId,
+  findOneByTokenId,
+  EXPIRATION_IN_MILLISECONDS,
 };
 
 export default activation;
