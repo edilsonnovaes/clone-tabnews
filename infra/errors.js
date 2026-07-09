@@ -119,12 +119,12 @@ export class UnauthorizedError extends Error {
   }
 }
 
-export class ForbbidenError extends Error {
+export class ForbiddenError extends Error {
   constructor({ cause, message, action }) {
     super(message || "Acesso negado.", {
       cause,
     });
-    this.name = "ForbbidenError";
+    this.name = "ForbiddenError";
     this.action =
       action || "Verifique as features necessárias antes de continuar.";
     this.statusCode = 403;

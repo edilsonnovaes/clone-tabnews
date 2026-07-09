@@ -4,7 +4,7 @@ import {
   ValidationError,
   NotFoundError,
   UnauthorizedError,
-  ForbbidenError,
+  ForbiddenError,
 } from "infra/errors";
 import * as cookie from "cookie";
 import session from "models/session.js";
@@ -20,7 +20,7 @@ function onErrorHandler(error, request, response) {
   if (
     error instanceof ValidationError ||
     error instanceof NotFoundError ||
-    error instanceof ForbbidenError
+    error instanceof ForbiddenError
   ) {
     return response.status(error.statusCode).json(error);
   }
@@ -98,16 +98,16 @@ function canRequest(feature) {
       return next();
     }
 
-    throw new ForbbidenError({
+    throw new ForbiddenError({
       message: "Você não possui permissão para executar esta ação.",
-      action: `Verifique se o seu usuário possui a feature: "${feature}"`,
+      action: `Verifique se o seu usuário possui a feature "${feature}"`,
     });
   };
 }
 
 const controller = {
   setSessionCookie,
-  ErrorHandlers: {
+  errorHandlers: {
     onNoMatch: onNoMatchHandler,
     onError: onErrorHandler,
   },

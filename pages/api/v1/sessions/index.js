@@ -4,7 +4,7 @@ import authentication from "models/authentication.js";
 import authorization from "models/authorization.js";
 import session from "models/session.js";
 
-import { ForbbidenError } from "infra/errors.js";
+import { ForbiddenError } from "infra/errors.js";
 
 const router = createRouter();
 
@@ -12,7 +12,7 @@ router.use(controller.injectAnonymousOrUser);
 router.post(controller.canRequest("create:session"), postHandler);
 router.delete(deleteHandler);
 
-export default router.handler(controller.ErrorHandlers);
+export default router.handler(controller.errorHandlers);
 
 async function postHandler(request, response) {
   const userInputValues = request.body;
@@ -23,7 +23,7 @@ async function postHandler(request, response) {
   );
 
   if (!authorization.can(authenticatedUser, "create:session")) {
-    throw new ForbbidenError({
+    throw new ForbiddenError({
       message: "Você não possui permissão para executar esta ação.",
       action: `Verifique se o seu usuário possui a feature: "create:session"`,
     });
