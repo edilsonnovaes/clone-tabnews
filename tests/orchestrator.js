@@ -94,6 +94,11 @@ async function getLastEmail() {
   return lastEmailItem;
 }
 
+async function addFeaturesToUser(userObject, features) {
+  const updatedUser = await user.addFeatures(userObject.id, features);
+  return updatedUser;
+}
+
 const orchestrator = {
   waitForAllServices,
   clearDatabase,
@@ -103,6 +108,7 @@ const orchestrator = {
   createSession,
   deleteAllEmails,
   getLastEmail,
+  addFeaturesToUser,
 };
 
 export default orchestrator;
