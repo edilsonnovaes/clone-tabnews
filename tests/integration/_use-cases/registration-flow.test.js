@@ -54,9 +54,11 @@ describe("Use case: Registration Flow (all successful)", () => {
 
     activationToken = await activation.findOneByTokenId(emailToken);
 
-    expect(lastEmail.sender).toBe("<contato@fintab.com.br>");
+    expect(lastEmail.sender).toBe(`<contato@${process.env.APP_DOMAIN}>`);
     expect(lastEmail.recipients[0]).toBe("<registration.flow@curso.dev>");
-    expect(lastEmail.subject).toBe("Ative seu cadastro no Fintab!");
+    expect(lastEmail.subject).toBe(
+      "Ative seu cadastro no Consciencia e Movimento!",
+    );
     expect(lastEmail.text).toContain("RegistrationFlow");
 
     expect(uuidVersion(activationToken.id)).toBe(4);
