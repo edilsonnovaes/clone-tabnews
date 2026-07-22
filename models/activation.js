@@ -73,15 +73,15 @@ async function activateUserByUserId(userId) {
 
 async function sendEmailToUser(user, activationToken) {
   await email.send({
-    from: "Fintab <contato@fintab.com.br>",
+    from: `ConscienciaeMovimento <contato@${process.env.APP_DOMAIN}>`,
     to: user.email,
-    subject: "Ative seu cadastro no Fintab!",
+    subject: "Ative seu cadastro no Consciencia e Movimento!",
     text: `${user.username}, clique no link abaixo para ativar seu cadastro:
 
 ${webserver.origin}/cadastro/ativar/${activationToken.id}
 
 Atenciosamente,
-Equipe Fintab
+Equipe Consciencia e Movimento
 `,
   });
 }
